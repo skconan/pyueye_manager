@@ -119,7 +119,7 @@ class Rect:
 
 
 class FrameThread(Thread):
-    def __init__(self, cam, views=None, copy=True):
+    def __init__(self, cam, device_id, views=None, copy=True):
         super(FrameThread, self).__init__()
         self.timeout = 1000
         self.cam = cam
@@ -127,7 +127,7 @@ class FrameThread(Thread):
         self.views = views
         self.copy = copy
         self.t_old = timeit.default_timer()
-
+        self.device_id = device_id
         cam.set_full_auto()
 
     def run(self):
@@ -150,8 +150,8 @@ class FrameThread(Thread):
     def notify(self, image_data):
         img = image_data.as_1d_image()
         image_data.unlock()
-        print_style("image shape",img.shape,color="red")
-        cv.imshow('img',img)
+        print_style("image shape", img.shape, color="red")
+        cv.imshow('Camera ID: '+str(self.device_id), img)
         k = cv.waitKey(1) & 0xff
         if k == ord('q') or k == ord('Q'):
             self.stop()

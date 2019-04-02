@@ -40,7 +40,7 @@ def main():
         cam[i].capture_video()
 
         print_style("Camera ID:", device_id, "Start", color="green")
-        thread[i] = FrameThread(cam[i])
+        thread[i] = FrameThread(cam[i], device_id)
         thread[i].start()
 
     # while True:
